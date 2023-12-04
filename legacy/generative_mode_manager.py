@@ -2,11 +2,11 @@ import openai
 import pandas as pd
 import streamlit as st
 from utils.visualizer import draw_plot, draw_pie_chart
-from utils.data_generator import generate_data
+from legacy.data_generator import generate_data
 from openai import OpenAI
-from utils.scenario_manager import load_scenarios
-from utils.metrics import display_deviation_metric
-from utils.query_manager import save_query, load_queries
+from legacy.scenario_manager import load_scenarios
+from legacy.metrics import display_deviation_metric
+from legacy.query_manager import save_query, load_queries
 from utils.translator import translate
 
 

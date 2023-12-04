@@ -3,8 +3,8 @@ from utils.translator import translate
 
 # Hardcoded user credentials (for demonstration purposes)
 USER_CREDENTIALS = {
-    "username": "Noa",
-    "password": "ministryofdata"
+    "username": "Consultant",
+    "password": "StartUpNation"
 }
 
 def check_credentials(username, password):
