@@ -1,31 +1,16 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
-import numpy as np
 
 # Modularized imports
 from utils.authenticator import authenticator
 from utils.styling import set_width_style
 from utils.translator import translate
+from utils.generator import generate_mock_data
+from utils.visualization import create_pillar_score_chart, create_overall_score_distribution
 
 # Main file of the Streamlit app
 
 def main():
     # Styling
-
-    #set_global_style()
     set_width_style()
 
     # Translation
@@ -40,8 +25,11 @@ def main():
     # Add user profile in sidebar
     with st.sidebar:
         st.title(translate("User Profile", target_language))
-        st.write(translate("Name: ClientX", target_language))  # TO DO - Replace with dynamic user information if available
-        st.write(translate("Job: Head of strategy", target_language))
+        # Dynamic user information
+        user_name = st.session_state.get('user_name', 'ClientX')
+        user_job = st.session_state.get('user_job', 'Head of Strategy')
+        st.write(translate(f"Name: {user_name}", target_language))
+        st.write(translate(f"Job: {user_job}", target_language))
 
     # Initialize scenario mode active state if it doesn't exist
     if 'scenario_mode_active' not in st.session_state:
@@ -56,6 +44,24 @@ def main():
         ]
     )
 
+    # Main page overview with key metrics and visualization
+    st.title(translate("Startup Analysis Dashboard", target_language))
+    st.markdown(translate("Overview of the startup's situation with key metrics and visualization", target_language))
+
+    # Load mock data for development purposes
+    startup_data = generate_mock_data()
+
+    # Display overall score distribution
+    st.header(translate("Overall Score Distribution", target_language))
+    pillars = ['Market Fit', 'Team', 'Product', 'Growth Strategy', 'Financials']  # Define your actual pillars here
+    overall_distribution_chart = create_overall_score_distribution(startup_data, pillars)
+    st.plotly_chart(overall_distribution_chart)
+
+    # Pillar analysis section
+    st.header(translate("Pillar Analysis", target_language))
+    selected_pillar = st.selectbox(translate("Choose Pillar", target_language), pillars)
+    pillar_chart = create_pillar_score_chart(startup_data, selected_pillar)
+    st.plotly_chart(pillar_chart)
+
 if __name__ == '__main__':
     main()
-
