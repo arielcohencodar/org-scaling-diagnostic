@@ -44,8 +44,8 @@ def main():
     # Add user profile in sidebar
     with st.sidebar:
         st.title(translate("User Profile", target_language))
-        st.write(translate("Name: Noa", target_language))  # TO DO - Replace with dynamic user information if available
-        st.write(translate("Job: Ministry of Economy", target_language))
+        st.write(translate("Name: ClientX", target_language))  # TO DO - Replace with dynamic user information if available
+        st.write(translate("Job: Head of strategy", target_language))
 
     # Initialize scenario mode active state if it doesn't exist
     if 'scenario_mode_active' not in st.session_state:
