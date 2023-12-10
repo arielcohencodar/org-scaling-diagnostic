@@ -14,7 +14,7 @@
 
 import streamlit as st
 # from utils.visualizer import plot_data
-from utils.dashboard_functions import show_dashboard
+from utils.dashboard_functions import show_main_dashboard
 from utils.data_loader import load_data, get_sheet_names
 
 # Main file of the Streamlit app
