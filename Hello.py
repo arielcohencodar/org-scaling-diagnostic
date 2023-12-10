@@ -16,13 +16,9 @@ import streamlit as st
 import numpy as np
 
 # Modularized imports
-from utils.config_loader import load_config
 from utils.authenticator import authenticator
 from utils.styling import set_width_style
 from utils.translator import translate
-
-# Load the updated configuration
-config = load_config()
 
 # Main file of the Streamlit app
 
@@ -55,7 +51,7 @@ def main():
         translate("Mode", target_language),
         [
             translate("Standard", target_language),
-            translate("Scenario", target_language),
+            translate("Review Insight", target_language),
             translate("Advanced Analytics", target_language)
         ]
     )
