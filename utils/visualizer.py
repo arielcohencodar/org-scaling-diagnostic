@@ -16,9 +16,7 @@ def load_excel_data(file_path, sheet_name='Sheet1'):
 def get_data_for_indicator(dataframe, indicator):
     return dataframe[dataframe['Indicator'] == indicator][['Date', 'Value']]
 
-indicator_plot_types = config['indicator_plot_types']
-
-def draw_plot(title, target_language, dataframe, detailed=False, threshold=None):
+def draw_plot(config, title, target_language, dataframe, detailed=False, threshold=None):
     dates, data = get_data_for_indicator(dataframe, title)
 
     # Threshold logic
@@ -26,6 +24,7 @@ def draw_plot(title, target_language, dataframe, detailed=False, threshold=None)
     color = "red" if last_value < threshold else "blue" if threshold is not None else "blue"
 
     # Determine plot type
+    indicator_plot_types = config['indicator_plot_types']
     plot_type = indicator_plot_types.get(title, 'line')
     fig = None
 
