@@ -13,27 +13,52 @@
 # limitations under the License.
 
 import streamlit as st
-# from utils.visualizer import plot_data
-from utils.dashboard_functions import show_main_dashboard
-from utils.data_loader import load_data, get_sheet_names
+import numpy as np
+
+# Modularized imports
+from utils.config_loader import load_config
+from utils.authenticator import authenticator
+from utils.styling import set_width_style
+from utils.translator import translate
+
+# Load the updated configuration
+config = load_config()
 
 # Main file of the Streamlit app
 
 def main():
-    st.title('Business Analysis Dashboard')
+    # Styling
 
-    # Load sheet names
-    sheet_names = get_sheet_names()
+    #set_global_style()
+    set_width_style()
 
-    # Dropdown menu for sheet selection
-    sheet_name = st.sidebar.selectbox('Select a Sheet', sheet_names)
+    # Translation
+    language = st.sidebar.selectbox("Choose Language", ["English", "Hebrew"])
+    target_language = "iw" if language == "Hebrew" else "en"
 
-    # Load and display the data
-    data = load_data(sheet_name)
-    st.write(data)
+    # Check for user authentication
+    if 'authenticated' not in st.session_state or not st.session_state['authenticated']:
+        authenticator(target_language)
+        return
+    
+    # Add user profile in sidebar
+    with st.sidebar:
+        st.title(translate("User Profile", target_language))
+        st.write(translate("Name: Noa", target_language))  # TO DO - Replace with dynamic user information if available
+        st.write(translate("Job: Ministry of Economy", target_language))
 
-    # Show the dashboard
-    show_dashboard(sheet_name, data)
+    # Initialize scenario mode active state if it doesn't exist
+    if 'scenario_mode_active' not in st.session_state:
+        st.session_state['scenario_mode_active'] = False
+
+    mode = st.sidebar.radio(
+        translate("Mode", target_language),
+        [
+            translate("Standard", target_language),
+            translate("Scenario", target_language),
+            translate("Advanced Analytics", target_language)
+        ]
+    )
 
 if __name__ == '__main__':
     main()
