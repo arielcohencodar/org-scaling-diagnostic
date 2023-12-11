@@ -1,0 +1,47 @@
+# Place this file in the root directory of your Streamlit project
+
+[pillars]
+names = [
+    "Market Fit", 
+    "Team", 
+    "Product", 
+    "Growth Strategy", 
+    "Financials",
+    "Customer Satisfaction",
+    "Operational Efficiency",
+    "Technical Scalability",
+    "Regulatory Compliance",
+    "Innovation",
+    "Funding",
+    "Market Reach",
+    "Customer Acquisition",
+    "Brand Strength",
+    "Strategic Positioning",
+    "Risk Management",
+    "Supply Chain",
+    "Human Resources",
+    "Social Impact",
+    "Environmental Sustainability"
+]
+
+[under_construction]
+"Market Fit" = true
+"Team" = true
+"Product" = true
+"Growth Strategy" = true
+"Financials" = true
+"Customer Satisfaction" = true
+"Operational Efficiency" = true
+"Technical Scalability" = true
+"Regulatory Compliance" = true
+"Innovation" = true
+"Funding" = true
+"Market Reach" = true
+"Customer Acquisition" = true
+"Brand Strength" = true
+"Strategic Positioning" = true
+"Risk Management" = true
+"Supply Chain" = true
+"Human Resources" = true
+"Social Impact" = true
+"Environmental Sustainability" = true
