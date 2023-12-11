@@ -23,26 +23,38 @@ def main():
         return
     
     # Add user profile in sidebar
-    with st.sidebar:
-        st.title(translate("User Profile", target_language))
-        # Dynamic user information
-        user_name = st.session_state.get('user_name', 'ClientX')
-        user_job = st.session_state.get('user_job', 'Head of Strategy')
-        st.write(translate(f"Name: {user_name}", target_language))
-        st.write(translate(f"Job: {user_job}", target_language))
+    st.sidebar.title(translate("User Profile", target_language))
+    # Dynamic user information
+    user_name = st.session_state.get('user_name', 'ClientX')
+    user_job = st.session_state.get('user_job', 'Head of Strategy')
+    st.sidebar.write(translate(f"Name: {user_name}", target_language))
+    st.sidebar.write(translate(f"Job: {user_job}", target_language))
 
-    # Initialize scenario mode active state if it doesn't exist
-    if 'scenario_mode_active' not in st.session_state:
-        st.session_state['scenario_mode_active'] = False
-
-    mode = st.sidebar.radio(
-        translate("Mode", target_language),
-        [
-            translate("Standard", target_language),
-            translate("Review Insight", target_language),
-            translate("Advanced Analytics", target_language)
-        ]
-    )
+    # Pillar analysis drill-down in sidebar
+    st.sidebar.header(translate("Pillar Analysis", target_language))
+    pillars = [
+        'Market Fit', 
+        'Team', 
+        'Product', 
+        'Growth Strategy', 
+        'Financials',
+        'Customer Satisfaction',
+        'Operational Efficiency',
+        'Technical Scalability',
+        'Regulatory Compliance',
+        'Innovation',
+        'Funding',
+        'Market Reach',
+        'Customer Acquisition',
+        'Brand Strength',
+        'Strategic Positioning',
+        'Risk Management',
+        'Supply Chain',
+        'Human Resources',
+        'Social Impact',
+        'Environmental Sustainability'
+    ]
+    selected_pillar = st.sidebar.selectbox(translate("Select Pillar for In-Depth Analysis", target_language), pillars)
 
     # Main page overview with key metrics and visualization
     st.title(translate("Startup Analysis Dashboard", target_language))
@@ -53,15 +65,14 @@ def main():
 
     # Display overall score distribution
     st.header(translate("Overall Score Distribution", target_language))
-    pillars = ['Market Fit', 'Team', 'Product', 'Growth Strategy', 'Financials']  # Define your actual pillars here
     overall_distribution_chart = create_overall_score_distribution(startup_data, pillars)
     st.plotly_chart(overall_distribution_chart)
 
-    # Pillar analysis section
-    st.header(translate("Pillar Analysis", target_language))
-    selected_pillar = st.selectbox(translate("Choose Pillar", target_language), pillars)
-    pillar_chart = create_pillar_score_chart(startup_data, selected_pillar)
-    st.plotly_chart(pillar_chart)
+    # Display pillar score chart in main area when a pillar is selected
+    if selected_pillar:
+        st.header(translate(f"{selected_pillar} Analysis", target_language))
+        pillar_chart = create_pillar_score_chart(startup_data, selected_pillar)
+        st.plotly_chart(pillar_chart)
 
 if __name__ == '__main__':
     main()
