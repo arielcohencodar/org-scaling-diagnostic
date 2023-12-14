@@ -2,6 +2,10 @@
 
 import pandas as pd
 import numpy as np
+from utils.config_loader import load_config
+
+# Load the configuration
+config = load_config()
 
 def generate_mock_data(num_startups=100):
     """
@@ -15,28 +19,7 @@ def generate_mock_data(num_startups=100):
     """
     
     # Define pillars for analysis
-    pillars = [
-        'Market Fit', 
-        'Team', 
-        'Product', 
-        'Growth Strategy', 
-        'Financials',
-        'Customer Satisfaction',
-        'Operational Efficiency',
-        'Technical Scalability',
-        'Regulatory Compliance',
-        'Innovation',
-        'Funding',
-        'Market Reach',
-        'Customer Acquisition',
-        'Brand Strength',
-        'Strategic Positioning',
-        'Risk Management',
-        'Supply Chain',
-        'Human Resources',
-        'Social Impact',
-        'Environmental Sustainability'
-    ]
+    pillars = config['pillars']['names']
 
     # Generate random scores for each pillar for each startup
     scores = np.random.uniform(1, 10, (num_startups, len(pillars)))  # scores between 1 and 10
