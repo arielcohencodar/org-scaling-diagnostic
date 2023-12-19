@@ -2,11 +2,11 @@
 
 [pillars]
 names = [
-    "Market / Buyer Discovery", 
+    "Market and Buyer Discovery", 
     "Path to Product-Market Fit", 
     "Product and Technology", 
     "Go-to-Market Strategy", 
-    "SMB / Enterprise Segment Analysis",
+    "SMB Enterprise Segment Analysis",
     "Market and Geographic Expansion",
     "Product Line Expansion",
     "Customer Success Management",
@@ -20,11 +20,11 @@ names = [
 ]
 
 [under_construction]
-"Market / Buyer Discovery" = true
+"Market and Buyer Discovery" = true
 "Path to Product-Market Fit" = true
 "Product and Technology" = true
 "Go-to-Market Strategy" = true
-"SMB / Enterprise Segment Analysis" = true
+"SMB Enterprise Segment Analysis" = true
 "Market and Geographic Expansion" = true
 "Product Line Expansion" = true
 "Customer Success Management" = true
