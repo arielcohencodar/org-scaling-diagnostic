@@ -2,46 +2,36 @@
 
 [pillars]
 names = [
-    "Market Fit", 
-    "Team", 
-    "Product", 
-    "Growth Strategy", 
-    "Financials",
-    "Customer Satisfaction",
-    "Operational Efficiency",
-    "Technical Scalability",
-    "Regulatory Compliance",
-    "Innovation",
-    "Funding",
-    "Market Reach",
-    "Customer Acquisition",
-    "Brand Strength",
-    "Strategic Positioning",
-    "Risk Management",
-    "Supply Chain",
-    "Human Resources",
-    "Social Impact",
-    "Environmental Sustainability"
+    "Market / Buyer Discovery", 
+    "Path to Product-Market Fit", 
+    "Product and Technology", 
+    "Go-to-Market Strategy", 
+    "SMB / Enterprise Segment Analysis",
+    "Market and Geographic Expansion",
+    "Product Line Expansion",
+    "Customer Success Management",
+    "Market Demand Generation",
+    "Strategic M&A",
+    "Ecosystem and Partnerships Development",
+    "Talent Excellence and Recruitment",
+    "Company Culture Assessment",
+    "Planning and Decision-Making Practice Evaluation",
+    "Top Team Effectiveness Assessment"
 ]
 
 [under_construction]
-"Market Fit" = true
-"Team" = true
-"Product" = true
-"Growth Strategy" = true
-"Financials" = true
-"Customer Satisfaction" = true
-"Operational Efficiency" = true
-"Technical Scalability" = true
-"Regulatory Compliance" = true
-"Innovation" = true
-"Funding" = true
-"Market Reach" = true
-"Customer Acquisition" = true
-"Brand Strength" = true
-"Strategic Positioning" = true
-"Risk Management" = true
-"Supply Chain" = true
-"Human Resources" = true
-"Social Impact" = true
-"Environmental Sustainability" = true
+"Market / Buyer Discovery" = true
+"Path to Product-Market Fit" = true
+"Product and Technology" = true
+"Go-to-Market Strategy" = true
+"SMB / Enterprise Segment Analysis" = true
+"Market and Geographic Expansion" = true
+"Product Line Expansion" = true
+"Customer Success Management" = true
+"Market Demand Generation" = true
+"Strategic M&A" = true
+"Ecosystem and Partnerships Development" = true
+"Talent Excellence and Recruitment" = true
+"Company Culture Assessment" = true
+"Planning and Decision-Making Practice Evaluation" = true
+"Top Team Effectiveness Assessment" = true
