@@ -6,7 +6,7 @@ from utils.authenticator import authenticator
 from utils.styling import set_width_style
 from utils.translator import translate
 from utils.visualization import create_pillar_score_chart, create_overall_score_distribution
-from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis
+from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis, create_score_over_time_charts
 
 # Load the configuration
 config = load_config()
@@ -58,7 +58,13 @@ def main():
 
             st.write(translate("Basic Statistics:", target_language))
             st.write(basic_stats)
+            # Displaying rating distribution chart
             st.plotly_chart(rating_dist_chart)
+            # Displaying score over time charts
+            score_columns = ["Work/Life Balance", "Diversity & Inclusion", "Career Opportunities", "Compensation and Benefits", "Senior Management"]
+            score_time_charts = create_score_over_time_charts(review_data, score_columns)
+            for chart in score_time_charts:
+                st.plotly_chart(chart)
             st.write(translate("Detailed Analysis:", target_language))
             st.write(detailed_analysis)
         else:

@@ -54,6 +54,30 @@ def create_rating_distribution_chart(df):
     fig.update_layout(bargap=0.1)
     return fig
 
+def create_score_over_time_charts(df, score_columns):
+    """
+    Create and return a list of Plotly charts for each score category over time.
+    """
+    charts = []
+    for column in score_columns:
+        # Group by 'Month_Year' and calculate the mean, ignoring NaN values
+        monthly_scores = df.groupby('Month_Year')[column].mean()
+
+        # Calculate the cumulative average
+        cumulative_avg = monthly_scores.expanding().mean()
+
+        # Resample to fill missing months with the last known cumulative average
+        cumulative_avg_filled = cumulative_avg.resample('M').ffill()
+
+        # Create the figure
+        fig = go.Figure(data=go.Scatter(x=cumulative_avg_filled.index.astype(str), y=cumulative_avg_filled.values, mode='lines', name='Cumulative Average'))
+
+        # Update layout
+        fig.update_layout(title=f'Cumulative Average of {column} Over Time', xaxis_title='Month and Year', yaxis_title=f'Cumulative Average {column} Score')
+
+        charts.append(fig)
+    return charts
+
 # Additional functions for other visualizations and analyses...
 
 def get_model_response(messages, model='gpt-4', temperature=0.5, max_tokens=500):
