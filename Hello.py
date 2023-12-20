@@ -7,8 +7,10 @@ from utils.styling import set_width_style
 from utils.translator import translate
 from utils.visualization import create_pillar_score_chart, create_overall_score_distribution
 from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis, create_score_over_time_charts
-from utils.talent_recruitment_analysis import load_and_preprocess_data, compute_attrition, create_attrition_comparison_chart
-
+from utils.talent_recruitment_analysis import (load_and_preprocess_data, compute_attrition, 
+                                               compute_headcount, create_attrition_comparison_chart, 
+                                               compute_attrition_by_function, create_function_attrition_chart, 
+                                               create_headcount_comparison_chart)
 
 # Load the configuration
 config = load_config()
@@ -50,12 +52,21 @@ def main():
         under_construction = config['under_construction'].get(selected_pillar, False)
         if under_construction:
             st.warning(translate("This analysis is currently under construction.", target_language))
+        
         # Inside the 'Talent Excellence and Recruitment' section
         elif selected_pillar == "Talent Excellence and Recruitment":
             # Load and preprocess the recruitment data
             incredibuild_file_path = './data/Incredibuild/HRIS/001_INCREDIBUILD_ALL_PROFILES.csv'  # Replace with the actual path
             all_profiles_file_path = './data/Incredibuild/HRIS/001_ALL_PROFILES.csv'  # Replace with the actual path
             incredibuild_data, all_profiles_data = load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path)
+
+            # Compute headcount
+            incredibuild_headcount = compute_headcount(incredibuild_data)
+            all_profiles_headcount = compute_headcount(all_profiles_data)
+
+            # Create and display headcount comparison chart
+            headcount_comparison_chart = create_headcount_comparison_chart(incredibuild_headcount, all_profiles_headcount)
+            st.plotly_chart(headcount_comparison_chart)
 
             # Compute attrition rates
             incredibuild_attrition = compute_attrition(incredibuild_data)
@@ -64,6 +75,19 @@ def main():
             # Create and display attrition rate comparison chart
             attrition_comparison_chart = create_attrition_comparison_chart(incredibuild_attrition, all_profiles_attrition)
             st.plotly_chart(attrition_comparison_chart)
+
+            # Compute attrition rates by function
+            incredibuild_function_attrition = compute_attrition_by_function(incredibuild_data)
+            all_profiles_function_attrition = compute_attrition_by_function(all_profiles_data)
+
+            # Create and display function attrition charts
+            incredibuild_function_chart = create_function_attrition_chart(incredibuild_function_attrition, 'Incredibuild Attrition Rate by Function')
+            all_profiles_function_chart = create_function_attrition_chart(all_profiles_function_attrition, 'Benchmark Attrition Rate by Function')
+
+            st.plotly_chart(incredibuild_function_chart)
+            st.plotly_chart(all_profiles_function_chart)
+
+        # Inside the 'Company Culture Assessment' section
         elif selected_pillar == "Company Culture Assessment":
             # Company Culture Assessment
             review_data_path = './data/Incredibuild/Employees Reviews/reviews_Incredibuild_processed.xlsx' #TODO: change to config

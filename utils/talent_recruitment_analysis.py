@@ -56,3 +56,61 @@ def create_attrition_comparison_chart(incredibuild_attrition, all_profiles_attri
         barmode='group'
     )
     return fig
+
+def compute_headcount(data):
+    # Compute headcount data
+    years = sorted(data['Start Year'].unique())
+    headcounts = {}
+    for year in years:
+        headcount = data[data['Start Year'] <= year].shape[0]
+        headcounts[year] = headcount
+    return headcounts
+
+def create_headcount_comparison_chart(incredibuild_headcount, all_profiles_headcount):
+    fig = go.Figure()
+    # Incredibuild data
+    fig.add_trace(go.Bar(
+        x=list(incredibuild_headcount.keys()),
+        y=list(incredibuild_headcount.values()),
+        name='Incredibuild',
+        marker_color='blue'
+    ))
+    # All Profiles (Benchmark) data
+    fig.add_trace(go.Bar(
+        x=list(all_profiles_headcount.keys()),
+        y=list(all_profiles_headcount.values()),
+        name='Benchmark',
+        marker_color='orange'
+    ))
+    # Update layout
+    fig.update_layout(
+        title='Headcount Comparison: Incredibuild vs Benchmark',
+        xaxis_title='Year',
+        yaxis_title='Headcount',
+        barmode='group'
+    )
+    return fig
+
+def compute_attrition_by_function(data):
+    # Compute attrition rates by function
+    functions = data['odp_function'].unique()
+    function_attrition = {function: compute_attrition(data[data['odp_function'] == function]) for function in functions}
+    return function_attrition
+
+def create_function_attrition_chart(function_attrition_data, title):
+    fig = go.Figure()
+    for function, attrition in function_attrition_data.items():
+        fig.add_trace(go.Scatter(
+            x=list(attrition.keys()),
+            y=list(attrition.values()),
+            mode='lines+markers',
+            name=function
+        ))
+    # Update layout
+    fig.update_layout(
+        title=title,
+        xaxis_title='Year',
+        yaxis_title='Attrition Rate',
+        legend_title='Function'
+    )
+    return fig
