@@ -7,6 +7,8 @@ from utils.styling import set_width_style
 from utils.translator import translate
 from utils.visualization import create_pillar_score_chart, create_overall_score_distribution
 from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis, create_score_over_time_charts
+from utils.talent_recruitment_analysis import load_data, compute_attrition, create_attrition_comparison_chart
+
 
 # Load the configuration
 config = load_config()
@@ -48,6 +50,20 @@ def main():
         under_construction = config['under_construction'].get(selected_pillar, False)
         if under_construction:
             st.warning(translate("This analysis is currently under construction.", target_language))
+        # Inside the 'Talent Excellence and Recruitment' section
+        elif selected_pillar == "Talent Excellence and Recruitment":
+            # Load and preprocess the recruitment data
+            incredibuild_file_path = './data/Incredibuild/HRIS/001_INCREDIBUILD_ALL_PROFILES.csv'  # Replace with the actual path
+            all_profiles_file_path = './data/Incredibuild/HRIS/ALL_PROFILES.csv'  # Replace with the actual path
+            incredibuild_data, all_profiles_data = load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path)
+
+            # Compute attrition rates
+            incredibuild_attrition = compute_attrition(incredibuild_data)
+            all_profiles_attrition = compute_attrition(all_profiles_data)
+
+            # Create and display attrition rate comparison chart
+            attrition_comparison_chart = create_attrition_comparison_chart(incredibuild_attrition, all_profiles_attrition)
+            st.plotly_chart(attrition_comparison_chart)
         elif selected_pillar == "Company Culture Assessment":
             # Company Culture Assessment
             review_data_path = './data/Incredibuild/Employees Reviews/reviews_Incredibuild_processed.xlsx' #TODO: change to config
