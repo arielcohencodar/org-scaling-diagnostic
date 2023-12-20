@@ -54,7 +54,7 @@ def main():
         elif selected_pillar == "Talent Excellence and Recruitment":
             # Load and preprocess the recruitment data
             incredibuild_file_path = './data/Incredibuild/HRIS/001_INCREDIBUILD_ALL_PROFILES.csv'  # Replace with the actual path
-            all_profiles_file_path = './data/Incredibuild/HRIS/ALL_PROFILES.csv'  # Replace with the actual path
+            all_profiles_file_path = './data/Incredibuild/HRIS/001_ALL_PROFILES.csv'  # Replace with the actual path
             incredibuild_data, all_profiles_data = load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path)
 
             # Compute attrition rates
