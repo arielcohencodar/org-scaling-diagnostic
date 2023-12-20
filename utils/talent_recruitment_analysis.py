@@ -4,13 +4,13 @@ import pandas as pd
 import plotly.graph_objects as go
 
 def load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path):
-    # Load Incredibuild data
+    # Load and preprocess Incredibuild data
     incredibuild_data = pd.read_csv(incredibuild_file_path, delimiter=';')
     incredibuild_data['start_date'] = pd.to_datetime(incredibuild_data['start_date'], format='%d/%m/%Y', errors='coerce')
     incredibuild_data['end_date'] = pd.to_datetime(incredibuild_data['end_date'], format='%d/%m/%Y', errors='coerce')
     incredibuild_data['end_date'].fillna(pd.Timestamp('2025-01-01'), inplace=True)
 
-    # Load All Profiles data
+    # Load and preprocess All Profiles data
     all_profiles_data = pd.read_csv(all_profiles_file_path, delimiter=';')
     all_profiles_data['start_date'] = pd.to_datetime(all_profiles_data['start_date'], errors='coerce', dayfirst=True)
     all_profiles_data['end_date'] = pd.to_datetime(all_profiles_data['end_date'], errors='coerce', dayfirst=True)
@@ -18,95 +18,57 @@ def load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path):
 
     return incredibuild_data, all_profiles_data
 
-def compute_attrition(data):
-    # Data preprocessing to extract year
+def compute_attrition_and_headcount(data):
     data['Start Year'] = data['start_date'].dt.year
     data['Termination Year'] = data['end_date'].dt.year
-
-    # Compute attrition rates
     years = sorted(data['Start Year'].unique())
     attrition_rates = {}
+    headcounts = {}
+
     for year in years:
         start_count = data[data['Start Year'] <= year].shape[0]
         term_count = data[(data['Termination Year'] == year) & (data['Start Year'] <= year)].shape[0]
         attrition_rates[year] = term_count / start_count if start_count > 0 else 0
-    return attrition_rates
+        headcounts[year] = start_count
 
-def create_attrition_comparison_chart(incredibuild_attrition, all_profiles_attrition):
+    return attrition_rates, headcounts
+
+def create_comparison_chart(data_incredibuild, data_benchmark, title, yaxis_title):
     fig = go.Figure()
-    # Incredibuild data
-    fig.add_trace(go.Bar(
-        x=list(incredibuild_attrition.keys()),
-        y=list(incredibuild_attrition.values()),
-        name='Incredibuild',
-        marker_color='blue'
-    ))
-    # All Profiles (Benchmark) data
-    fig.add_trace(go.Bar(
-        x=list(all_profiles_attrition.keys()),
-        y=list(all_profiles_attrition.values()),
-        name='Benchmark',
-        marker_color='orange'
-    ))
-    # Update layout
+    for label, data in [("Incredibuild", data_incredibuild), ("Benchmark", data_benchmark)]:
+        fig.add_trace(go.Bar(
+            x=list(data.keys()),
+            y=list(data.values()),
+            name=label
+        ))
+
     fig.update_layout(
-        title='Attrition Rate Comparison: Incredibuild vs Benchmark',
+        title=title,
         xaxis_title='Year',
-        yaxis_title='Attrition Rate',
+        yaxis_title=yaxis_title,
         barmode='group'
     )
     return fig
 
-def compute_headcount(data):
-    # Compute headcount data
-    years = sorted(data['Start Year'].unique())
-    headcounts = {}
-    for year in years:
-        headcount = data[data['Start Year'] <= year].shape[0]
-        headcounts[year] = headcount
-    return headcounts
-
-def create_headcount_comparison_chart(incredibuild_headcount, all_profiles_headcount):
-    fig = go.Figure()
-    # Incredibuild data
-    fig.add_trace(go.Bar(
-        x=list(incredibuild_headcount.keys()),
-        y=list(incredibuild_headcount.values()),
-        name='Incredibuild',
-        marker_color='blue'
-    ))
-    # All Profiles (Benchmark) data
-    fig.add_trace(go.Bar(
-        x=list(all_profiles_headcount.keys()),
-        y=list(all_profiles_headcount.values()),
-        name='Benchmark',
-        marker_color='orange'
-    ))
-    # Update layout
-    fig.update_layout(
-        title='Headcount Comparison: Incredibuild vs Benchmark',
-        xaxis_title='Year',
-        yaxis_title='Headcount',
-        barmode='group'
-    )
-    return fig
-
-def compute_attrition_by_function(data):
-    # Compute attrition rates by function
+def compute_function_wise_attrition(data):
     functions = data['odp_function'].unique()
-    function_attrition = {function: compute_attrition(data[data['odp_function'] == function]) for function in functions}
-    return function_attrition
+    function_wise_attrition = {}
+    for function in functions:
+        function_data = data[data['odp_function'] == function]
+        function_attrition_rates, _ = compute_attrition_and_headcount(function_data)
+        function_wise_attrition[function] = function_attrition_rates
+    return function_wise_attrition
 
-def create_function_attrition_chart(function_attrition_data, title):
+def create_function_wise_chart(function_wise_attrition, title):
     fig = go.Figure()
-    for function, attrition in function_attrition_data.items():
+    for function, attrition in function_wise_attrition.items():
         fig.add_trace(go.Scatter(
             x=list(attrition.keys()),
             y=list(attrition.values()),
             mode='lines+markers',
             name=function
         ))
-    # Update layout
+
     fig.update_layout(
         title=title,
         xaxis_title='Year',

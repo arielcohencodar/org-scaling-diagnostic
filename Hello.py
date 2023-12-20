@@ -6,10 +6,10 @@ from utils.authenticator import authenticator
 from utils.styling import set_width_style
 from utils.translator import translate
 from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis, create_score_over_time_charts
-from utils.talent_recruitment_analysis import (load_and_preprocess_data, compute_attrition, 
-                                               compute_headcount, create_attrition_comparison_chart, 
-                                               compute_attrition_by_function, create_function_attrition_chart, 
-                                               create_headcount_comparison_chart)
+from utils.talent_recruitment_analysis import (load_and_preprocess_data, compute_attrition_and_headcount, 
+                                               create_comparison_chart, compute_function_wise_attrition, 
+                                               create_function_wise_chart)
+
 
 # Load the configuration
 config = load_config()
@@ -59,32 +59,26 @@ def main():
             all_profiles_file_path = './data/Incredibuild/HRIS/001_ALL_PROFILES.csv'  # Replace with the actual path
             incredibuild_data, all_profiles_data = load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path)
 
-            # Compute headcount
-            incredibuild_headcount = compute_headcount(incredibuild_data)
-            all_profiles_headcount = compute_headcount(all_profiles_data)
+            # Compute attrition rates and headcount for Incredibuild and benchmark
+            incredibuild_attrition, incredibuild_headcount = compute_attrition_and_headcount(incredibuild_data)
+            benchmark_attrition, benchmark_headcount = compute_attrition_and_headcount(all_profiles_data)
 
-            # Create and display headcount comparison chart
-            headcount_comparison_chart = create_headcount_comparison_chart(incredibuild_headcount, all_profiles_headcount)
-            st.plotly_chart(headcount_comparison_chart)
+            # Create and display comparison charts
+            attrition_chart = create_comparison_chart(incredibuild_attrition, benchmark_attrition, 'Attrition Rate Comparison', 'Attrition Rate')
+            headcount_chart = create_comparison_chart(incredibuild_headcount, benchmark_headcount, 'Headcount Comparison', 'Headcount')
 
-            # Compute attrition rates
-            incredibuild_attrition = compute_attrition(incredibuild_data)
-            all_profiles_attrition = compute_attrition(all_profiles_data)
+            st.plotly_chart(attrition_chart)
+            st.plotly_chart(headcount_chart)
 
-            # Create and display attrition rate comparison chart
-            attrition_comparison_chart = create_attrition_comparison_chart(incredibuild_attrition, all_profiles_attrition)
-            st.plotly_chart(attrition_comparison_chart)
+            # Compute and display function-wise attrition charts
+            incredibuild_function_attrition = compute_function_wise_attrition(incredibuild_data)
+            benchmark_function_attrition = compute_function_wise_attrition(all_profiles_data)
 
-            # Compute attrition rates by function
-            incredibuild_function_attrition = compute_attrition_by_function(incredibuild_data)
-            all_profiles_function_attrition = compute_attrition_by_function(all_profiles_data)
-
-            # Create and display function attrition charts
-            incredibuild_function_chart = create_function_attrition_chart(incredibuild_function_attrition, 'Incredibuild Attrition Rate by Function')
-            all_profiles_function_chart = create_function_attrition_chart(all_profiles_function_attrition, 'Benchmark Attrition Rate by Function')
+            incredibuild_function_chart = create_function_wise_chart(incredibuild_function_attrition, 'Incredibuild Function-Wise Attrition')
+            benchmark_function_chart = create_function_wise_chart(benchmark_function_attrition, 'Benchmark Function-Wise Attrition')
 
             st.plotly_chart(incredibuild_function_chart)
-            st.plotly_chart(all_profiles_function_chart)
+            st.plotly_chart(benchmark_function_chart)
 
         # Inside the 'Company Culture Assessment' section
         elif selected_pillar == "Company Culture Assessment":
