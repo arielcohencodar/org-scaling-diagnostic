@@ -1,4 +1,17 @@
-# Place this file in the root directory of your Streamlit project
+# Config file for the website
+
+[documentation]
+text = """
+This tool is designed to assist startups in scaling effectively by providing data-driven insights across multiple functional areas. It serves as a twin product to a strategic playbook developed by McKinsey & Company, aimed at guiding startups to prioritize initiatives critical for scaling.
+
+The playbook builds on existing knowledge in the market about scaling up and focuses on three specific lenses:
+
+- The impact of people and organizational structure on a company's ability to scale.
+- Insights from Founder recipes of approximately 20 successful Centaur Founders/CEOs.
+- A specific focus on B2B SaaS and companies that have undergone hypergrowth.
+
+Through advanced analytics and expert input, including interviews with Founder/CEOs, leveraging public data sources, and engaging with venture capital firms like Pitango Venture Capital, the playbook validates and enhances the strategic direction for growth.
+"""
 
 [pillars]
 names = [

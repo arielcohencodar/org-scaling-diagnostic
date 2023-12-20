@@ -48,7 +48,10 @@ def main():
 
     # Main dashboard overview
     st.title(translate("Startup Analysis Dashboard", target_language))
-    st.markdown(translate("Overview of the startup's situation with key metrics and visualization", target_language))
+    # Retrieve and display documentation text from config
+    documentation_text = config['documentation']['text']
+    st.markdown(translate("### Comprehensive Documentation", target_language))
+    st.markdown(translate(documentation_text, target_language))
 
 
     # Display analysis or under construction message
