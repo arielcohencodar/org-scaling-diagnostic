@@ -84,6 +84,10 @@ def main():
             incredibuild_function_chart = create_function_wise_chart(incredibuild_function_attrition, 'Incredibuild Function-Wise Attrition')
             st.plotly_chart(incredibuild_function_chart)
 
+            benchmark_function_attrition = compute_function_wise_attrition(all_profiles_data)
+            benchmark_function_chart = create_function_wise_chart(benchmark_function_attrition, 'Benchmark Function-Wise Attrition')
+            st.plotly_chart(benchmark_function_chart)
+
         # Inside the 'Company Culture Assessment' section
         elif selected_pillar == "Company Culture Assessment":
             # Company Culture Assessment
