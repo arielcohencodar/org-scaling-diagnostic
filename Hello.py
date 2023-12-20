@@ -5,7 +5,6 @@ from utils.config_loader import load_config
 from utils.authenticator import authenticator
 from utils.styling import set_width_style
 from utils.translator import translate
-from utils.visualization import create_pillar_score_chart, create_overall_score_distribution
 from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis, create_score_over_time_charts
 from utils.talent_recruitment_analysis import (load_and_preprocess_data, compute_attrition, 
                                                compute_headcount, create_attrition_comparison_chart, 
