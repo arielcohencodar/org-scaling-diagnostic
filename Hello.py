@@ -5,8 +5,8 @@ from utils.config_loader import load_config
 from utils.authenticator import authenticator
 from utils.styling import set_width_style
 from utils.translator import translate
-from utils.generator import generate_mock_data
 from utils.visualization import create_pillar_score_chart, create_overall_score_distribution
+from utils.employee_review_analysis import load_review_data, get_basic_statistics, create_rating_distribution_chart, generate_detailed_analysis
 
 # Load the configuration
 config = load_config()
@@ -41,13 +41,6 @@ def main():
     st.title(translate("Startup Analysis Dashboard", target_language))
     st.markdown(translate("Overview of the startup's situation with key metrics and visualization", target_language))
 
-    # Mock data loading
-    startup_data = generate_mock_data()
-
-    # Overall score distribution chart
-    st.header(translate("Overall Score Distribution", target_language))
-    overall_distribution_chart = create_overall_score_distribution(startup_data, pillars)
-    st.plotly_chart(overall_distribution_chart)
 
     # Display analysis or under construction message
     if selected_pillar:
@@ -55,6 +48,19 @@ def main():
         under_construction = config['under_construction'].get(selected_pillar, False)
         if under_construction:
             st.warning(translate("This analysis is currently under construction.", target_language))
+        elif selected_pillar == "Company Culture Assessment":
+            # Company Culture Assessment
+            review_data_path = './data/Incredibuild/Employees Reviews/reviews_Incredibuild_processed.xlsx' #TODO: change to config
+            review_data = load_review_data(review_data_path)
+            basic_stats = get_basic_statistics(review_data)
+            rating_dist_chart = create_rating_distribution_chart(review_data)
+            detailed_analysis = generate_detailed_analysis(review_data, ["Company Culture"])
+
+            st.write(translate("Basic Statistics:", target_language))
+            st.write(basic_stats)
+            st.plotly_chart(rating_dist_chart)
+            st.write(translate("Detailed Analysis:", target_language))
+            st.write(detailed_analysis)
         else:
             st.info(translate("Analysis details will be displayed here.", target_language))
 
