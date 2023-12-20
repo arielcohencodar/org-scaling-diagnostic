@@ -9,4 +9,5 @@ deep_translator
 selenium
 textblob
 plotly
+openpyxl
 
