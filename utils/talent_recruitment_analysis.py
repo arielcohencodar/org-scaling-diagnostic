@@ -1,16 +1,12 @@
-# utils/talent_recruitment_analysis.py
-
 import pandas as pd
 import plotly.graph_objects as go
 
 def load_and_preprocess_data(incredibuild_file_path, all_profiles_file_path):
-    # Load and preprocess Incredibuild data
     incredibuild_data = pd.read_csv(incredibuild_file_path, delimiter=';')
     incredibuild_data['start_date'] = pd.to_datetime(incredibuild_data['start_date'], format='%d/%m/%Y', errors='coerce')
     incredibuild_data['end_date'] = pd.to_datetime(incredibuild_data['end_date'], format='%d/%m/%Y', errors='coerce')
     incredibuild_data['end_date'].fillna(pd.Timestamp('2025-01-01'), inplace=True)
 
-    # Load and preprocess All Profiles data
     all_profiles_data = pd.read_csv(all_profiles_file_path, delimiter=';')
     all_profiles_data['start_date'] = pd.to_datetime(all_profiles_data['start_date'], errors='coerce', dayfirst=True)
     all_profiles_data['end_date'] = pd.to_datetime(all_profiles_data['end_date'], errors='coerce', dayfirst=True)
@@ -33,6 +29,20 @@ def compute_attrition_and_headcount(data):
 
     return attrition_rates, headcounts
 
+def compute_headcount_by_company(data):
+    companies = data['company'].unique()
+    company_headcounts = {}
+    for company in companies:
+        company_data = data[data['company'] == company]
+        company_data['Start Year'] = company_data['start_date'].dt.year
+        years = sorted(company_data['Start Year'].unique())
+        headcounts = {}
+        for year in years:
+            headcount = company_data[company_data['Start Year'] <= year].shape[0]
+            headcounts[year] = headcount
+        company_headcounts[company] = headcounts
+    return company_headcounts
+
 def create_comparison_chart(data_incredibuild, data_benchmark, title, yaxis_title):
     fig = go.Figure()
     for label, data in [("Incredibuild", data_incredibuild), ("Benchmark", data_benchmark)]:
@@ -46,6 +56,23 @@ def create_comparison_chart(data_incredibuild, data_benchmark, title, yaxis_titl
         title=title,
         xaxis_title='Year',
         yaxis_title=yaxis_title,
+        barmode='group'
+    )
+    return fig
+
+def create_company_headcount_chart(company_headcounts, title):
+    fig = go.Figure()
+    for company, headcount in company_headcounts.items():
+        fig.add_trace(go.Bar(
+            x=list(headcount.keys()),
+            y=list(headcount.values()),
+            name=company
+        ))
+
+    fig.update_layout(
+        title=title,
+        xaxis_title='Year',
+        yaxis_title='Headcount',
         barmode='group'
     )
     return fig
