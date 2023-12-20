@@ -20,18 +20,18 @@ names = [
 ]
 
 [under_construction]
-"Market and Buyer Discovery" = False
-"Path to Product-Market Fit" = False
-"Product and Technology" = False
-"Go-to-Market Strategy" = False
-"SMB Enterprise Segment Analysis" = False
-"Market and Geographic Expansion" = False
-"Product Line Expansion" = False
-"Customer Success Management" = False
-"Market Demand Generation" = False
-"Strategic M&A" = False
-"Ecosystem and Partnerships Development" = False
-"Talent Excellence and Recruitment" = False
-"Company Culture Assessment" = True
-"Planning and Decision-Making Practice Evaluation" = False
-"Top Team Effectiveness Assessment" = False
+"Market and Buyer Discovery" = false
+"Path to Product-Market Fit" = false
+"Product and Technology" = false
+"Go-to-Market Strategy" = false
+"SMB Enterprise Segment Analysis" = false
+"Market and Geographic Expansion" = false
+"Product Line Expansion" = false
+"Customer Success Management" = false
+"Market Demand Generation" = false
+"Strategic M&A" = false
+"Ecosystem and Partnerships Development" = false
+"Talent Excellence and Recruitment" = false
+"Company Culture Assessment" = frue
+"Planning and Decision-Making Practice Evaluation" = false
+"Top Team Effectiveness Assessment" = false

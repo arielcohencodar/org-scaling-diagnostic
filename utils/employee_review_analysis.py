@@ -1,15 +1,16 @@
 # utils/employee_review_analysis.py
 
+import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import openai
 from openai import OpenAI
 
 # Assuming 'client' is an OpenAI client instance for GPT-4 communication
 
-client = OpenAI(
-  api_key="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",
-)
+openai.api_key = st.secrets['openai_api_key']
+client = OpenAI(api_key=openai.api_key)  # Initialize the OpenAI client
 
 def load_review_data(file_path):
     """
