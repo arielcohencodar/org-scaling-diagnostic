@@ -70,6 +70,9 @@ def main():
             benchmark_attrition, _ = compute_attrition_and_headcount(all_profiles_data)
             benchmark_headcounts = compute_headcount_by_company(all_profiles_data)
 
+            # Add Incredibuild's headcount to the benchmark_headcounts for comparison
+            benchmark_headcounts['Incredibuild'] = incredibuild_headcount
+
             # Create and display comparison charts
             attrition_chart = create_comparison_chart(incredibuild_attrition, benchmark_attrition, 'Attrition Rate Comparison', 'Attrition Rate')
             headcount_chart = create_company_headcount_chart(benchmark_headcounts, 'Company Headcount Comparison')
